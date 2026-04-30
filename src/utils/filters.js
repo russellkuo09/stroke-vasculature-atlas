@@ -34,11 +34,30 @@ const TIMEPOINT_BIN_TESTS = {
   chronic: (d) => d >= 14,
 }
 
+const TIMEPOINT_KEYWORD_PATTERNS = {
+  acute: [/\bacute\b/i, /\bearly\b/i, /\bhours?\b/i],
+  subacute: [/\bsubacute\b/i],
+  chronic: [
+    /\bchronic\b/i,
+    /\blate\b/i,
+    /\bmonths?\b/i,
+    /\bweeks?\b/i,
+    /\blong[-\s]?term\b/i,
+  ],
+}
+
 export function matchesTimepointBin(timepointStr, bin) {
+  if (!timepointStr) return false
+
   const days = parseTimepointDays(timepointStr)
-  if (days.length === 0) return false
-  const test = TIMEPOINT_BIN_TESTS[bin]
-  return test ? days.some(test) : false
+  if (days.length > 0) {
+    const test = TIMEPOINT_BIN_TESTS[bin]
+    return test ? days.some(test) : false
+  }
+
+  const patterns = TIMEPOINT_KEYWORD_PATTERNS[bin]
+  if (!patterns) return false
+  return patterns.some((re) => re.test(timepointStr))
 }
 
 export function matchesReperfusion(dataset, selected) {
