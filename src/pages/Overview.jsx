@@ -55,7 +55,7 @@ export default function Overview() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       {/* Mobile top bar with hamburger */}
-      <div className="md:hidden sticky top-0 z-30 bg-slate-950/95 backdrop-blur border-b border-slate-800 px-4 py-3 flex items-center gap-3">
+      <div className="md:hidden bg-slate-950 border-b border-slate-800 px-4 py-3 flex items-center gap-3">
         <button
           type="button"
           onClick={() => setDrawerOpen(true)}
